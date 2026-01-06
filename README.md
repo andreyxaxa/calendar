@@ -53,3 +53,130 @@ docker compose down:
 ```
 make compose-down
 ```
+
+## API
+
+### POST http://localhost:8080/v1/create_event
+request:
+```json
+{
+    "user_id": 1,
+    "date": "2026-01-08",
+    "text": "event"
+}
+```
+response:
+```json
+{
+    "result": {
+        "user_id": 1,
+        "uid": "bb52a762-f283-48ad-8cb5-cfe8e5bfa8eb",
+        "date": "2026-01-08",
+        "text": "event"
+    }
+}
+```
+
+### POST http://localhost:8080/v1/update_event
+request:
+```json
+{
+    "user_id": 1,
+    "date": "2026-01-10",
+    "text": "new text",
+    "uid": "bb52a762-f283-48ad-8cb5-cfe8e5bfa8eb"
+}
+```
+response:
+```json
+{
+    "result": {
+        "user_id": 1,
+        "uid": "bb52a762-f283-48ad-8cb5-cfe8e5bfa8eb",
+        "date": "2026-01-10",
+        "text": "new text"
+    }
+}
+```
+
+### POST http://localhost:8080/v1/delete_event
+request:
+```json
+{
+    "user_id": 1,
+    "uid": "bb52a762-f283-48ad-8cb5-cfe8e5bfa8eb"
+}
+```
+response:
+OK(200)
+
+***После удаления не забудьте создать новое событие(я) для тестирования следующих методов.
+
+### GET http://localhost:8080/v1/events_for_day?user_id=1&date=2026-01-08
+response:
+```json
+[
+    {
+        "result": {
+            "user_id": 1,
+            "uid": "62dad1b6-9f83-4e2d-9047-aa5bf5641e11",
+            "date": "2026-01-08",
+            "text": "one more event"
+        }
+    },
+    {
+        "result": {
+            "user_id": 1,
+            "uid": "cee8027f-d1ba-424d-85ce-44ba201fd9d3",
+            "date": "2026-01-08",
+            "text": "событие"
+        }
+    }
+]
+```
+
+### GET http://localhost:8080/v1/events_for_week?user_id=1&date=2026-01-05
+response:
+```json
+[
+    {
+        "result": {
+            "user_id": 1,
+            "uid": "cee8027f-d1ba-424d-85ce-44ba201fd9d3",
+            "date": "2026-01-08",
+            "text": "событие"
+        }
+    },
+    {
+        "result": {
+            "user_id": 1,
+            "uid": "62dad1b6-9f83-4e2d-9047-aa5bf5641e11",
+            "date": "2026-01-08",
+            "text": "one more event"
+        }
+    }
+]
+```
+
+### GET http://localhost:8080/v1/events_for_month?user_id=1&date=2026-01-01
+response:
+```json
+[
+    {
+        "result": {
+            "user_id": 1,
+            "uid": "cee8027f-d1ba-424d-85ce-44ba201fd9d3",
+            "date": "2026-01-08",
+            "text": "событие"
+        }
+    },
+    {
+        "result": {
+            "user_id": 1,
+            "uid": "62dad1b6-9f83-4e2d-9047-aa5bf5641e11",
+            "date": "2026-01-08",
+            "text": "one more event"
+        }
+    }
+]
+```
