@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// TODO: принимать логгер
+// NewEventsRoutes -.
 func NewEventsRoutes(apiV1Group fiber.Router, e usecase.Events, l logger.Interface) {
 	r := &V1{
 		e: e,

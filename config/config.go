@@ -7,20 +7,30 @@ import (
 )
 
 type (
+	// Config -.
 	Config struct {
-		HTTP HTTP
-		Log  Log
+		HTTP    HTTP
+		Log     Log
+		Swagger Swagger
 	}
 
+	// HTTP -.
 	HTTP struct {
 		Port string `env:"HTTP_PORT,required"`
 	}
 
+	// Log -.
 	Log struct {
 		Level string `env:"LOG_LEVEL,required"`
 	}
+
+	// Swagger -.
+	Swagger struct {
+		Enabled bool `env:"SWAGGER_ENABLED" envDefault:"false"`
+	}
 )
 
+// New returns app config.
 func New() (*Config, error) {
 	cfg := &Config{}
 

@@ -14,8 +14,8 @@ import (
 	"github.com/andreyxaxa/calendar/pkg/logger"
 )
 
+// Run -.
 func Run(cfg *config.Config) {
-	// TODO: logger
 	l := logger.New(cfg.Log.Level)
 
 	// Repository

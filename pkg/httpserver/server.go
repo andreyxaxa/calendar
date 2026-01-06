@@ -14,6 +14,7 @@ const (
 	_defaultShutdownTimeout = 5 * time.Second
 )
 
+// Server -.
 type Server struct {
 	App    *fiber.App
 	notify chan error
@@ -24,6 +25,7 @@ type Server struct {
 	shutdownTimeout time.Duration
 }
 
+// New returns new Server
 func New(opts ...Option) *Server {
 	s := &Server{
 		notify:          make(chan error, 1),
@@ -49,6 +51,7 @@ func New(opts ...Option) *Server {
 	return s
 }
 
+// Start -.
 func (s *Server) Start() {
 	go func() {
 		s.notify <- s.App.Listen(s.address)
@@ -56,10 +59,12 @@ func (s *Server) Start() {
 	}()
 }
 
+// Notify -.
 func (s *Server) Notify() <-chan error {
 	return s.notify
 }
 
+// Shutdown -.
 func (s *Server) Shutdown() error {
 	return s.App.ShutdownWithTimeout(s.shutdownTimeout)
 }

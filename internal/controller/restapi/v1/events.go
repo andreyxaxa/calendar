@@ -15,6 +15,17 @@ import (
 	"github.com/google/uuid"
 )
 
+// @Summary Create
+// @Description Creates event by user_id, date, text
+// @ID create
+// @Tags events
+// @Accept json
+// @Produce json
+// @Param request body request.CreateRequest true "Event"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Error
+// @Failure 500 {object} response.Error
+// @Router /v1/create_event [post]
 func (r *V1) create(ctx *fiber.Ctx) error {
 	var body request.CreateRequest
 
@@ -62,6 +73,18 @@ func (r *V1) create(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(resp)
 }
 
+// @Summary Update
+// @Description Updates event
+// @ID update
+// @Tags events
+// @Accept json
+// @Produce json
+// @Param request body request.UpdateRequest true "Event"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Error
+// @Failure 404 {object} response.Error
+// @Failure 500 {object} response.Error
+// @Router /v1/update_event [post]
 func (r *V1) update(ctx *fiber.Ctx) error {
 	var body request.UpdateRequest
 
@@ -113,6 +136,18 @@ func (r *V1) update(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(resp)
 }
 
+// @Summary Delete
+// @Description Deletes event
+// @ID delete
+// @Tags events
+// @Accept json
+// @Produce json
+// @Param request body request.DeleteRequest true "Event"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Error
+// @Failure 404 {object} response.Error
+// @Failure 500 {object} response.Error
+// @Router /v1/delete_event [post]
 func (r *V1) delete(ctx *fiber.Ctx) error {
 	var body request.DeleteRequest
 
@@ -149,8 +184,18 @@ func (r *V1) delete(ctx *fiber.Ctx) error {
 	return ctx.SendStatus(http.StatusOK)
 }
 
+// @Summary Get events for day
+// @Description Get events for day by date
+// @ID get-day
+// @Tags events
+// @Param date query string false "Date"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Error
+// @Failure 404 {object} response.Error
+// @Failure 500 {object} response.Error
+// @Router /v1/events_for_day [get]
 func (r *V1) getEventsForDay(ctx *fiber.Ctx) error {
-	userIdStr := ctx.Query("user_id")
+	userIDStr := ctx.Query("user_id")
 	dateStr := ctx.Query("date")
 
 	d, err := time.Parse("2006-01-02", dateStr)
@@ -158,7 +203,7 @@ func (r *V1) getEventsForDay(ctx *fiber.Ctx) error {
 		return errorResponse(ctx, http.StatusBadRequest, "invalid date format, expected: YYYY-MM-DD")
 	}
 
-	u, err := strconv.Atoi(userIdStr)
+	u, err := strconv.Atoi(userIDStr)
 	if err != nil {
 		return errorResponse(ctx, http.StatusBadRequest, "invalid user_id format")
 	}
@@ -195,8 +240,18 @@ func (r *V1) getEventsForDay(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(resps)
 }
 
+// @Summary Get events for week
+// @Description Get events for week by date
+// @ID get-week
+// @Tags events
+// @Param date query string false "Date"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Error
+// @Failure 404 {object} response.Error
+// @Failure 500 {object} response.Error
+// @Router /v1/events_for_week [get]
 func (r *V1) getEventsForWeek(ctx *fiber.Ctx) error {
-	userIdStr := ctx.Query("user_id")
+	userIDStr := ctx.Query("user_id")
 	dateStr := ctx.Query("date")
 
 	d, err := time.Parse("2006-01-02", dateStr)
@@ -204,7 +259,7 @@ func (r *V1) getEventsForWeek(ctx *fiber.Ctx) error {
 		return errorResponse(ctx, http.StatusBadRequest, "invalid date format, expected: YYYY-MM-DD")
 	}
 
-	u, err := strconv.Atoi(userIdStr)
+	u, err := strconv.Atoi(userIDStr)
 	if err != nil {
 		return errorResponse(ctx, http.StatusBadRequest, "invalid user_id")
 	}
@@ -241,8 +296,18 @@ func (r *V1) getEventsForWeek(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(resps)
 }
 
+// @Summary Get events for month
+// @Description Get events for month by date
+// @ID get-month
+// @Tags events
+// @Param date query string false "Date"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Error
+// @Failure 404 {object} response.Error
+// @Failure 500 {object} response.Error
+// @Router /v1/events_for_month [get]
 func (r *V1) getEventsForMonth(ctx *fiber.Ctx) error {
-	userIdStr := ctx.Query("user_id")
+	userIDStr := ctx.Query("user_id")
 	dateStr := ctx.Query("date")
 
 	d, err := time.Parse("2006-01-02", dateStr)
@@ -250,7 +315,7 @@ func (r *V1) getEventsForMonth(ctx *fiber.Ctx) error {
 		return errorResponse(ctx, http.StatusBadRequest, "invalid date format, expected: YYYY-MM-DD")
 	}
 
-	u, err := strconv.Atoi(userIdStr)
+	u, err := strconv.Atoi(userIDStr)
 	if err != nil {
 		return errorResponse(ctx, http.StatusBadRequest, "invalid user_id")
 	}

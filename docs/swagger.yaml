@@ -1,0 +1,250 @@
+basePath: /v1
+definitions:
+  date.Date:
+    properties:
+      time.Time:
+        type: string
+    type: object
+  request.CreateRequest:
+    properties:
+      date:
+        $ref: '#/definitions/date.Date'
+      text:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  request.DeleteRequest:
+    properties:
+      uid:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  request.UpdateRequest:
+    properties:
+      date:
+        $ref: '#/definitions/date.Date'
+      text:
+        type: string
+      uid:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  response.Error:
+    properties:
+      error:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      result:
+        $ref: '#/definitions/response.ResultEvent'
+    type: object
+  response.ResultEvent:
+    properties:
+      date:
+        $ref: '#/definitions/date.Date'
+      text:
+        type: string
+      uid:
+        type: string
+      user_id:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  title: HTTP-Calendar
+  version: "1.0"
+paths:
+  /v1/create_event:
+    post:
+      consumes:
+      - application/json
+      description: Creates event by user_id, date, text
+      operationId: create
+      parameters:
+      - description: Event
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Create
+      tags:
+      - events
+  /v1/delete_event:
+    post:
+      consumes:
+      - application/json
+      description: Deletes event
+      operationId: delete
+      parameters:
+      - description: Event
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.DeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Delete
+      tags:
+      - events
+  /v1/events_for_day:
+    get:
+      description: Get events for day by date
+      operationId: get-day
+      parameters:
+      - description: Date
+        in: query
+        name: date
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Get events for day
+      tags:
+      - events
+  /v1/events_for_month:
+    get:
+      description: Get events for month by date
+      operationId: get-month
+      parameters:
+      - description: Date
+        in: query
+        name: date
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Get events for month
+      tags:
+      - events
+  /v1/events_for_week:
+    get:
+      description: Get events for week by date
+      operationId: get-week
+      parameters:
+      - description: Date
+        in: query
+        name: date
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Get events for week
+      tags:
+      - events
+  /v1/update_event:
+    post:
+      consumes:
+      - application/json
+      description: Updates event
+      operationId: update
+      parameters:
+      - description: Event
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Update
+      tags:
+      - events
+swagger: "2.0"

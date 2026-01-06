@@ -10,17 +10,20 @@ import (
 	"github.com/google/uuid"
 )
 
+// EventsRepo -.
 type EventsRepo struct {
 	storage map[int]map[uuid.UUID]entity.Event
 	mu      sync.RWMutex
 }
 
+// New returns new EventsRepo(struct)
 func New() *EventsRepo {
 	return &EventsRepo{
 		storage: make(map[int]map[uuid.UUID]entity.Event),
 	}
 }
 
+// Create -.
 func (r *EventsRepo) Create(ctx context.Context, userID int, eventUID uuid.UUID, event entity.Event) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
@@ -37,14 +40,10 @@ func (r *EventsRepo) Create(ctx context.Context, userID int, eventUID uuid.UUID,
 	return nil
 }
 
+// Update -.
 func (r *EventsRepo) Update(ctx context.Context, userID int, eventUID uuid.UUID, text string, date time.Time) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
-
-	// m := r.storage[userID]
-	// if m == nil {
-	// 	return errs.ErrUserNotFound
-	// }
 
 	if _, ok := r.storage[userID]; !ok {
 		return errs.ErrUserNotFound
@@ -62,6 +61,7 @@ func (r *EventsRepo) Update(ctx context.Context, userID int, eventUID uuid.UUID,
 	return nil
 }
 
+// Delete -.
 func (r *EventsRepo) Delete(ctx context.Context, userID int, eventUID uuid.UUID) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
@@ -80,6 +80,7 @@ func (r *EventsRepo) Delete(ctx context.Context, userID int, eventUID uuid.UUID)
 	return nil
 }
 
+// GetEventsForDay -.
 func (r *EventsRepo) GetEventsForDay(ctx context.Context, userID int, date time.Time) (map[uuid.UUID]entity.Event, error) {
 	events := make(map[uuid.UUID]entity.Event)
 
@@ -99,6 +100,7 @@ func (r *EventsRepo) GetEventsForDay(ctx context.Context, userID int, date time.
 	return events, nil
 }
 
+// GetEventsForWeek -.
 func (r *EventsRepo) GetEventsForWeek(ctx context.Context, userID int, date time.Time) (map[uuid.UUID]entity.Event, error) {
 	events := make(map[uuid.UUID]entity.Event)
 
@@ -122,6 +124,7 @@ func (r *EventsRepo) GetEventsForWeek(ctx context.Context, userID int, date time
 	return events, nil
 }
 
+// GetEventsForMonth -.
 func (r *EventsRepo) GetEventsForMonth(ctx context.Context, userID int, date time.Time) (map[uuid.UUID]entity.Event, error) {
 	events := make(map[uuid.UUID]entity.Event)
 

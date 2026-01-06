@@ -6,10 +6,12 @@ import (
 	"time"
 )
 
+// Date -.
 type Date struct {
 	time.Time
 }
 
+// UnmarshalJSON -.
 func (d *Date) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), `"`)
 
@@ -23,6 +25,7 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// MarshalJSON -.
 func (d Date) MarshalJSON() ([]byte, error) {
 	return []byte(`"` + d.Time.Format("2006-01-02") + `"`), nil
 }

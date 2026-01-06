@@ -24,6 +24,7 @@ func buildRequestMessage(ctx *fiber.Ctx) string {
 	return result.String()
 }
 
+// Logger -.
 func Logger(l logger.Interface) func(*fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		err := ctx.Next()
